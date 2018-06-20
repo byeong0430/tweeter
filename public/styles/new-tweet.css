@@ -18,5 +18,5 @@ textarea[name='text'] {
 
 .new-tweet .counter {
   float: right;
-  line-height: 25px;
+  line-height: 160%;
 }
