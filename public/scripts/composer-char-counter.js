@@ -7,7 +7,7 @@ $(document).ready(function () {
 
   // on keyup, subtract the # of chars from the total # allowed.
   textArea.on('keyup', function () {
-    // this refers to textArea.
+    // `this` refers to textArea.
     const numCharLeft = charMaxLen - $(this).val().length;
     // update the counter
     charCounter.innerHTML = numCharLeft;

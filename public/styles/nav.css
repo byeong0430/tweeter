@@ -22,3 +22,19 @@
   margin-left: 10px;
   line-height: 80px;
 }
+
+#nav-bar button {
+  float: right;
+  line-height: 50px;
+  margin-top: 13px;
+  background-color: #ebfffc;
+  border: none;
+  border-radius: 6px;
+  color: #00a087;
+  text-align: center;
+}
+
+#nav-bar button:hover {
+  background-color: white;
+  color: #82B541;
+}
