@@ -22,10 +22,11 @@ const createTweetElement = userTweet => {
   // 3.1 icons - end
 
   // 3.2 time of your tweet creation
-  const timeDiffInSec = (Date.now() - Number(userTweet.created_at)) / 1000;
+  const timeDiffInSec = (Date.now() - Number(userTweet.created_at));
   // use EXTERNAL humanize-duration module to convert seconds to human readable time
   // this module was imported in <head> of index.html
   let humanTime = humanizeDuration(timeDiffInSec, { largest: 1 });
+  
   // replace string float numbers with integers
   humanTime = humanTime.replace(/^[+-]?(\d*[.])?\d+/, number => Math.floor(number));
   // 3.2 time of your tweet creation - end
