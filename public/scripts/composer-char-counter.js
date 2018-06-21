@@ -1,4 +1,4 @@
-$(document).ready(function () {
+$(() => {
   const textArea = $('textarea[name="text"]');
   const charCounter = $('span.counter')[0];
 
