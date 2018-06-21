@@ -10,6 +10,10 @@
   width: 100%;
 }
 
+#nav-bar * {
+  display: inline-block;
+}
+
 #nav-bar .logo {
   float: left;
   width: 80px;
