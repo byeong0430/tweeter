@@ -17,25 +17,16 @@ MongoClient.connect(url, (dbErr, db) => {
   // throw err if there is a problem with db connection
   if (dbErr) throw dbErr;
 
-  const getTweet = (collErr, coll) => {
-    // throw err if there is a problem with connection to collection
-    if (collErr) throw collErr;
+  // pass the mongo db to data-helpers and get saveTweet() and getTweets() functions
+  const DataHelpers = require("./lib/data-helpers.js")(db);
 
-    // pass the data to data-helpers and get saveTweet() and getTweets() functions
-    const DataHelpers = require("./lib/data-helpers.js")(coll);
-    // pass the functions defined in DataHelpers to tweet-routes
-    const tweetsRoutes = require("./routes/tweets")(DataHelpers);
+  // pass the functions defined in DataHelpers to tweet-routes
+  const tweetsRoutes = require("./routes/tweets")(DataHelpers);
 
-    // Mount the tweets routes at the "/tweets" path prefix:
-    app.use("/tweets", tweetsRoutes);
+  // Mount the tweets routes at the "/tweets" path prefix:
+  app.use("/tweets", tweetsRoutes);
 
-    app.listen(PORT, () => {
-      console.log("Example app listening on port " + PORT);
-    });
-
-    db.close();
-  };
-
-  // connection successful!
-  db.collection('tweets').find().toArray(getTweet);
+  app.listen(PORT, () => {
+    console.log("Example app listening on port " + PORT);
+  });
 });
