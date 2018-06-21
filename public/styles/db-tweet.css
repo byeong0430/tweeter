@@ -74,6 +74,12 @@ article.tweet footer .material-icons {
   font-size: 18px;
   color: #118472cf;
   margin-left: 2px;
+  display: none; /* set default display to none */
+}
+
+/* upon hovering article.tweet, display the google icons */
+article.tweet:hover .material-icons {
+  display: inline-block;
 }
 
 article.tweet footer .icon-group {
