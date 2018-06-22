@@ -1,0 +1,28 @@
+// nav
+// element height for nav elements
+$nav-el-height: 80px;
+// top, left positions should be specified with position: fixed
+%nav-fix-top {
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+// logo + website name
+%nav-logo-group {
+  float: left;
+  line-height: $nav-el-height;
+}
+
+// nav - end
+// new-tweet
+@mixin color-flash-message($font-color, $bg-color, $border-color) {
+  color: $font-color;
+  background-color: $bg-color;
+  border: 1px $border-color solid
+}
+
+// new-tweet - end
+// db tweet
+$user-img-width: 50px;
+// db tweet

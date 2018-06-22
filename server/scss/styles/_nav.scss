@@ -1,0 +1,34 @@
+#nav-bar {
+  @extend %nav-fix-top;
+  padding: 0em 2em 0em 2em;
+  background-color: #00a087;
+  color: #e8fdff;
+  height: $nav-el-height;
+  width: 100vw;
+  * {
+    display: inline-block;
+  }
+  .logo {
+    @extend %nav-logo-group;
+    width: $nav-el-height; // we want width = height
+  }
+  .header {
+    @extend %nav-logo-group;
+    font-size: 2em;
+    margin-left: 10px;
+  }
+  button {
+    float: right;
+    line-height: $nav-el-height - 30px;
+    margin-top: 13px;
+    background-color: #ebfffc;
+    border: none;
+    border-radius: 5px;
+    color: #00a087;
+    text-align: center;
+    &:hover {
+      background-color: white;
+      color: #82B541;
+    }
+  }
+}

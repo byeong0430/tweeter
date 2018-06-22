@@ -1,0 +1,91 @@
+// db tweets
+article.tweet {
+  margin: 2em 2em 0em;
+  border: 1px lightgrey solid;
+  border-radius: 5px;
+  &:hover {
+    border: 1.4px grey solid;
+    /* upon hovering article.tweet, display the google icons */
+    .material-icons {
+      display: inline-block;
+    }
+  }
+  header {
+    background-color: #ebebeb;
+    padding: 10px;
+    * {
+      display: inline-block;
+      vertical-align: top;
+    }
+    span {
+      margin: 0;
+      float: right;
+      font-size: 13px;
+      line-height: 35px;
+      color: grey;
+    }
+  }
+  img {
+    margin-right: 10px;
+    border-radius: 5px;
+    width: $user-img-width;
+    height: $user-img-width; // we want width = height
+  }
+  h2 {
+    margin: 0;
+  }
+  /* article main elements */
+  main {
+    padding: 25px 10px;
+    border-bottom: 1px lightgrey solid;
+  }
+  /* article footer elements */
+  footer {
+    padding: 10px;
+    * {
+      display: inline-block;
+    }
+    span {
+      font-size: 12px;
+    }
+    .like-counter {
+      margin-left: 30px;
+    }
+    .material-icons {
+      font-size: 18px;
+      color: #118472cf;
+      margin-left: 2px;
+      vertical-align: bottom;
+      display: none;
+      /* set default display to none */
+      &:hover {
+        animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
+      }
+    }
+    .icon-group {
+      float: right;
+    }
+  }
+}
+
+/* reference: https://css-tricks.com/snippets/css/shake-css-keyframe-animation/ */
+
+@keyframes shake {
+  10%,
+  90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+  20%,
+  80% {
+    transform: translate3d(2px, 0, 0);
+  }
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+  40%,
+  60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
