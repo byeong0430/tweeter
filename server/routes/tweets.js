@@ -7,7 +7,7 @@ const tweetsRoutes = express.Router();
 
 module.exports = function (DataHelpers) {
   // because the whole router is mounted to /tweets in index.js, '/' actually means '/tweets'
-  tweetsRoutes.get("/", function (req, res) {
+  tweetsRoutes.get("/", (req, res) => {
     DataHelpers.getTweets((err, tweets) => {
       if (err) {
         res.status(500).json({ error: err.message });
@@ -17,7 +17,14 @@ module.exports = function (DataHelpers) {
     });
   });
 
-  tweetsRoutes.post("/", function (req, res) {
+  tweetsRoutes.get('/likes/:id', (req, res) => {
+    // :id is a unique id given to each tweet
+    DataHelpers.updateLikes(req.params.id, () => {
+      res.redirect('/');
+    });
+  })
+
+  tweetsRoutes.post("/", (req, res) => {
     if (!req.body.text) {
       res.status(400).json({ error: 'invalid request: no data in POST body' });
       return;
@@ -32,7 +39,7 @@ module.exports = function (DataHelpers) {
       created_at: Date.now()
     };
 
-    DataHelpers.saveTweet(tweet, (err) => {
+    DataHelpers.saveTweet(tweet, err => {
       if (err) {
         res.status(500).json({ error: err.message });
       } else {

@@ -12,7 +12,7 @@ $(() => {
 
   // event handler for on form submission
   const $tweetForm = $('.new-tweet form');
-  $tweetForm.on('submit', function (event) {
+  $tweetForm.on('submit', event => {
     // prevent the default behaviour of the form
     event.preventDefault();
     // serialise your form data

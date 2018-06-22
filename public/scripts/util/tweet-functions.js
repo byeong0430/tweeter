@@ -1,43 +1,62 @@
+const makeIconGroup = (tweetData, ...iconNames) => {
+  // icons: outcome looks like this: <span class='icon-group'><i class='material-icons'>flag</i></span> 
+  const $iconGroupSpan = $('<span>').addClass('icon-group');
+  // loop through each google icon name to create DOM and append it to span.icon-group
+  iconNames[0].forEach(name => {
+    let $icon = $('<i>').addClass(`material-icons ${name}`).text(name);
+    if (name === 'favorite') {
+      // add each tweet's id to the anchor tag
+      $icon = $(`<a href=/tweets/likes/${tweetData._id}/>`).append($icon);
+    }
+    $iconGroupSpan.append($icon);
+  });
+  return $iconGroupSpan;
+};
+
+const humaniseTime = (tweet) => {
+  const timeDiffInSec = (Date.now() - Number(tweet.created_at));
+  // use EXTERNAL humanize-duration module to convert seconds to human readable time
+  // this module was imported in <head> of index.html
+  let stringTime = humanizeDuration(timeDiffInSec, { largest: 1 });
+
+  // replace string float numbers with integers
+  return stringTime.replace(/^[+-]?(\d*[.])?\d+/, number => Math.floor(number));
+};
+
 // create db tweet displays
 const createTweetElement = userTweet => {
   // 1. construct header
+  const account = userTweet.user;
   const $header = $('<header>')
-    .append(`<img src="${userTweet.user.avatars.small}"/>`)
-    .append($('<h2>').text(userTweet.user.name))
-    .append($('<span>').text(userTweet.user.handle));
+    .append(`<img src="${account.avatars.small}"/>`)
+    .append($('<h2>').text(account.name))
+    .append($('<span>').text(account.handle));
 
   // 2. construct main
   const $main = $('<main>').append($('<p>').text(userTweet.content.text));
 
   // 3. construct footer
-  // 3.1 icons
-  // outcome looks like this: <span class='icon-group'><i class='material-icons'>flag</i></span> 
-  const $iconGroupSpan = $('<span>').addClass('icon-group');
-
-  // loop through each google icon name to create DOM and append it to span.icon-group
-  ['flag', 'repeat', 'favorite'].forEach(name => {
-    const $icon = $('<i>').addClass('material-icons').text(name);
-    $iconGroupSpan.append($icon);
-  });
-  // 3.1 icons - end
-
-  // 3.2 time of your tweet creation
-  const timeDiffInSec = (Date.now() - Number(userTweet.created_at));
-  // use EXTERNAL humanize-duration module to convert seconds to human readable time
-  // this module was imported in <head> of index.html
-  let humanTime = humanizeDuration(timeDiffInSec, { largest: 1 });
+  // icon group
+  const $iconGroupSpan = makeIconGroup(userTweet, ['flag', 'repeat', 'favorite']);
+  // time of your tweet creation
+  const $timeSpan = $('<span>').text(`${humaniseTime(userTweet)} ago`);
+  // create a like counter
+  let likeMessage = `${userTweet.like_counter} like`;
+  // if there is 0 like, remove the message. 
+  // if there is more than 1 like, make 'like' plural
+  (userTweet.like_counter === 0) ? likeMessage = '' : likeMessage += 's';
+  const $likeSpan = $('<span>').addClass('like-counter').text(likeMessage);
   
-  // replace string float numbers with integers
-  humanTime = humanTime.replace(/^[+-]?(\d*[.])?\d+/, number => Math.floor(number));
-  // 3.2 time of your tweet creation - end
+  // append timeSpan and likeSpan to a new span
+  const $footerMessage = $('<span>').append($timeSpan).append($likeSpan);
 
   // append the two spans (icon-group and tweet time) to <footer>
-  const $footer = $('<footer>')
-    .append($('<span>').text(`${humanTime} ago`))
-    .append($iconGroupSpan);
+  const $footer = $('<footer>').append($footerMessage).append($iconGroupSpan);
   // 3. construct footer - end
 
-  return $('<article>').addClass('tweet').append($header).append($main).append($footer);
+  // tweeter article
+  const $tweetArticle = $('<article>').addClass('tweet');
+  return $tweetArticle.append($header).append($main).append($footer);
 };
 
 // append tweet elements to their container

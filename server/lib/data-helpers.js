@@ -4,25 +4,33 @@
 // const simulateDelay = require("./util/simulate-delay");
 
 // Defines helper functions for saving and getting tweets, using the database `db`
-module.exports = function makeDataHelpers(db) {
+module.exports = function makeDataHelpers(db, ObjectId) {
+  const collection = db.collection('tweets');
   return {
-    
     // Saves a tweet to `db`
-    saveTweet: function (newTweet, callback) {
+    saveTweet(newTweet, callback) {
       // insert the new tweet to mongo db
-      db.collection('tweets').insertOne(newTweet);
+      collection.insertOne(newTweet);
       callback(null, true);
     },
 
     // Get all tweets in collection, sorted by newest first
-    getTweets: function (callback) {
+    getTweets(callback) {
       const sortNewestFirst = (a, b) => b.created_at - a.created_at;
       // get all tweets from mongo db
-      db.collection('tweets').find().toArray((collErr, coll) => {
+      collection.find().toArray((collErr, coll) => {
         if (collErr) throw collErr;
         callback(null, coll.sort(sortNewestFirst));
       })
-    }
+    },
 
+    updateLikes(tweetId, callback) {
+      // use the unique id to find the data set in mongo db and update the like_counter
+      const objId = { '_id': ObjectId(tweetId) };
+      collection.find(objId).toArray((collErr, coll) => {
+        collection.update(objId, { $set: { 'like_counter': coll[0].like_counter + 1 } });
+      });
+      callback(null, true);
+    }
   };
 }
