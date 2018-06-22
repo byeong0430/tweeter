@@ -41,12 +41,14 @@ const createTweetElement = userTweet => {
   // time of your tweet creation
   const $timeSpan = $('<span>').text(`${humaniseTime(userTweet)} ago`);
   // create a like counter
-  let likeMessage = `${userTweet.like_counter} like`;
+  let likeMessage = (userTweet.like_counter === 0) ? '' : `${userTweet.like_counter} like`;
   // if there is 0 like, remove the message. 
   // if there is more than 1 like, make 'like' plural
-  (userTweet.like_counter === 0) ? likeMessage = '' : likeMessage += 's';
+  if (userTweet.like_counter > 1) {
+    likeMessage += 's';
+  }
   const $likeSpan = $('<span>').addClass('like-counter').text(likeMessage);
-  
+
   // append timeSpan and likeSpan to a new span
   const $footerMessage = $('<span>').append($timeSpan).append($likeSpan);
 
