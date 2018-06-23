@@ -17,10 +17,14 @@ module.exports = function (DataHelpers) {
     });
   });
 
-  tweetsRoutes.get('/likes/:id', (req, res) => {
-    // :id is a unique id given to each tweet
-    DataHelpers.updateLikes(req.params.id, () => {
-      res.redirect('/');
+  tweetsRoutes.post('/likes', (req, res) => {
+    // req.body.id is a unique id given to each tweet
+    DataHelpers.updateLikes(req.body.id, (err) => {
+      if (err) {
+        res.status(500).json({ error: err.message });
+      } else {
+        res.status(201).send();
+      }
     });
   })
 
@@ -36,7 +40,8 @@ module.exports = function (DataHelpers) {
       content: {
         text: req.body.text
       },
-      created_at: Date.now()
+      created_at: Date.now(),
+      like_counter: 0
     };
 
     DataHelpers.saveTweet(tweet, err => {

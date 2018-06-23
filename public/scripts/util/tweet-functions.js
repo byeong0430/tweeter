@@ -1,13 +1,33 @@
-const makeIconGroup = (tweetData, ...iconNames) => {
+// sendAjaxReq() can post a new tweet AND update like-counter
+const sendAjaxReq = (reqData, okActionCb, noteDom) => {
+  const { alertFunc } = reqData;
+
+  $.ajax({
+    url: reqData.url,
+    method: reqData.method,
+    data: reqData.data
+  }).done(() => {
+    if (alertFunc.enableOkAlert === 'y') {
+      alertFunc.showFlashMessage(noteDom, 'flash-message ok', 'Success!');
+    }
+    // get the tweet db again
+    okActionCb();
+  }).fail((xhr, err, errText) => {
+    // fail case 3: 400 ~ 500 errors?
+    const errMessage = `${err} ${xhr.status}: ${errText}`;
+    if (alertFunc.enableWarningAlert === 'y') {
+      alertFunc.showFlashMessage(noteDom, 'flash-message warning', errMessage);
+    }
+  });
+};
+
+const makeIconGroup = (...iconNames) => {
   // icons: outcome looks like this: <span class='icon-group'><i class='material-icons'>flag</i></span> 
   const $iconGroupSpan = $('<span>').addClass('icon-group');
   // loop through each google icon name to create DOM and append it to span.icon-group
+  // also add data attribute called id and give it each tweet object id
   iconNames[0].forEach(name => {
     let $icon = $('<i>').addClass(`material-icons ${name}`).text(name);
-    if (name === 'favorite') {
-      // add each tweet's id to the anchor tag
-      $icon = $(`<a href=/tweets/likes/${tweetData._id}/>`).append($icon);
-    }
     $iconGroupSpan.append($icon);
   });
   return $iconGroupSpan;
@@ -36,12 +56,12 @@ const createTweetElement = userTweet => {
   const $main = $('<main>').append($('<p>').text(userTweet.content.text));
 
   // 3. construct footer
-  // icon group
-  const $iconGroupSpan = makeIconGroup(userTweet, ['flag', 'repeat', 'favorite']);
+  // icon group - add data-id attribute!
+  const $iconGroupSpan = makeIconGroup(['flag', 'repeat', 'favorite']).attr('data-id', userTweet._id);
   // time of your tweet creation
   const $timeSpan = $('<span>').text(`${humaniseTime(userTweet)} ago`);
   // create a like counter
-  let likeMessage = (userTweet.like_counter === 0) ? '' : `${userTweet.like_counter} like`;
+  let likeMessage = `${userTweet.like_counter} like`;
   // if there is 0 like, remove the message. 
   // if there is more than 1 like, make 'like' plural
   if (userTweet.like_counter > 1) {
@@ -61,40 +81,40 @@ const createTweetElement = userTweet => {
   return $tweetArticle.append($header).append($main).append($footer);
 };
 
+const addLikeCount = () => {
+  // on click, fav btn should make a post request to /tweets/likes to update the like-counter
+  $('#tweets-container i.favorite').on('click', function () {
+    // data-id attribute is in the parent DOM
+    const $tweetId = $(this).parent().data('id');
+    // send an ajax post request to /tweets/likes/. only enable warning alert
+    const ajaxMeta = {
+      url: '/tweets/likes',
+      method: 'POST',
+      data: { 'id': $tweetId },
+      alertFunc: {
+        'enableOkAlert': 'n',
+        'enableWarningAlert': 'y',
+        showFlashMessage
+      }
+    };
+    sendAjaxReq(ajaxMeta, showTweets, $('.new-tweet .flash-message'));
+  })
+};
+
 // append tweet elements to their container
 const renderTweets = tweets => {
   tweets.forEach(tweet => {
     const $tweet = createTweetElement(tweet);
     $('#tweets-container').append($tweet);
   });
+
+  addLikeCount();
 };
 
 // bring all tweets from mongo db
 const loadTweets = tweets => {
   // render all tweets and display them on the webpage
   renderTweets(tweets);
-}
-
-// post tweets
-// parameters: jQuery serialised form flash message
-const postTweet = (serialisedForm, message) => {
-  $.ajax({
-    url: '/tweets',
-    method: 'POST',
-    data: serialisedForm,
-    success: () => {
-      // tweet db successfully updated!
-      // display success message (change class name to 'flash-message ok' to apply appropriate css rules)
-      showFlashMessage(message, 'flash-message ok', 'Success!');
-      // get the tweet db again
-      showTweets();
-    },
-    error: (xhr, err, errText) => {
-      // fail case 3: 400 ~ 500 errors?
-      const errMessage = `${err} ${xhr.status}: ${errText}`;
-      showFlashMessage(message, 'flash-message warning', errMessage);
-    }
-  });
 };
 
 // ajax call to get tweet data and load them
@@ -127,8 +147,18 @@ const processNewTweet = (form, message) => {
       showFlashMessage(message, 'flash-message warning', 'Warning: Your tweet is too long!');
       break;
     default:
-      // if there is no problem with the input data, serialise it!
-      postTweet(form, message);
+      // make a post request to /tweets. enable both alert and error message alerts
+      const ajaxMeta = {
+        url: '/tweets',
+        method: 'POST',
+        data: form,
+        alertFunc: {
+          'enableOkAlert': 'y',
+          'enableWarningAlert': 'y',
+          showFlashMessage
+        }
+      };
+      sendAjaxReq(ajaxMeta, showTweets, message);
   }
 };
 

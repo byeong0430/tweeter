@@ -28,7 +28,9 @@ module.exports = function makeDataHelpers(db, ObjectId) {
       // use the unique id to find the data set in mongo db and update the like_counter
       const objId = { '_id': ObjectId(tweetId) };
       collection.find(objId).toArray((collErr, coll) => {
-        collection.update(objId, { $set: { 'like_counter': coll[0].like_counter + 1 } });
+        // if the current value is not a number, convert it to 0
+        const currentCount = (coll[0].like_counter) ? coll[0].like_counter : 0;
+        collection.update(objId, { $set: { 'like_counter': currentCount + 1 } });
       });
       callback(null, true);
     }

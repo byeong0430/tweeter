@@ -56,7 +56,7 @@ article.tweet {
       color: #118472cf;
       margin-left: 2px;
       vertical-align: bottom;
-      display: none;
+      // display: none;
       /* set default display to none */
       &:hover {
         animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
