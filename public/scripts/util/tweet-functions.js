@@ -145,10 +145,10 @@ const showTweets = () => {
       // check if user's still logged in. if so,
       if (result.isLoggedIn) {
         // configure buttons for logged-in case
-        btnWhileLoggedIn();
+        renderLoggedInPage();
       } else {
         // configure buttons for logged-out case
-        btnAfterLoggedOut();
+        renderLoggedOutPage();
       }
       // before loading tweets, empty out the tweet container
       $("#tweets-container").empty();

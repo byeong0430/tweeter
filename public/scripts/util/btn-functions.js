@@ -1,20 +1,24 @@
 // navbar button config while logged IN
-const btnWhileLoggedIn = () => {
+const renderLoggedInPage = () => {
   // show the logout button
   $("#logout-btn").show();
   // hide the login/signup section and button
   $("#login-signup-btn").hide();
   $("section.login-signup").hide();
+  // display the welcome message
+  $("#nav-bar .welcome-message").show();
 };
 
 // navbar button config when logged OUT
-const btnAfterLoggedOut = () => {
+const renderLoggedOutPage = () => {
   // show the logout button
   $("#logout-btn").hide();
   // then hide the login/signup section and button
   $("#login-signup-btn").show();
   // render the form as a login form
   showLoginForm($("section.login-signup"), $("section.login-signup a"));
+  // hide the welcome message
+  $("#nav-bar .welcome-message").hide();
 };
 
 // add event listener to the logout btn
@@ -24,7 +28,7 @@ const logout = () => {
     $.ajax({
       url: "/tweets/logout",
       method: "GET",
-      success: () => btnAfterLoggedOut()
+      success: () => renderLoggedOutPage()
     });
   });
 };
@@ -39,7 +43,7 @@ const verificationSuccess = ($form, success) => {
   // hide any warning message that may have been displayed before logging in (e.g. clicking on 'like' btn before logging in)
   $("section.tweet-message-board .flash-message").hide();
   // configure the navbar button for when user's logged in
-  btnWhileLoggedIn();
+  renderLoggedInPage();
 };
 
 // display error message when login/signup failed
