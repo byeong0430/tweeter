@@ -85,6 +85,8 @@ const switchVerifiForm = ($formSection, $form) => {
     }
     // hide any activated warning message because that applies to the previous form before switching
     $formSection.find(".flash-message").hide();
+    // refresh form inputs
+    $form[0].reset();
   });
 };
 

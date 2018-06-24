@@ -37,7 +37,7 @@ MongoClient.connect(url, (dbErr, db) => {
   // throw err if there is a problem with db connection
   if (dbErr) throw dbErr;
 
-  // pass the mongo db and ObjectId (required for searching) 
+  // pass the mongo db and ObjectId (required for document searching)
   // to data-helpers and get saveTweet() and getTweets() functions
   const DataHelpers = require("./lib/data-helpers.js")(db, ObjectId);
 

@@ -9,7 +9,8 @@ const modifyTweets = (reqData, okActionCb, noteDom) => {
   })
     .done(() => {
       if (alertFunc.enableOkAlert === "y") {
-        alertFunc.showFlashMessage(noteDom, "flash-message ok", "Success!");
+        const messageClass = "flash-message ok";
+        alertFunc.showFlashMessage(noteDom, messageClass, "Success!");
       }
       // callback when ajax request was successful (i.e. render main page with new tweets from mongo db)
       okActionCb();
@@ -17,11 +18,9 @@ const modifyTweets = (reqData, okActionCb, noteDom) => {
     .fail(err => {
       // 400 - 500 error status
       if (alertFunc.enableWarningAlert === "y") {
-        alertFunc.showFlashMessage(
-          noteDom,
-          "flash-message warning",
-          err.responseJSON.error
-        );
+        const messageClass = "flash-message warning";
+        const errorMessage = err.responseJSON.error;
+        alertFunc.showFlashMessage(noteDom, messageClass, errorMessage);
       }
     });
 };
@@ -51,6 +50,8 @@ const humaniseTime = tweet => {
   return stringTime.replace(/^[+-]?(\d*[.])?\d+/, number => Math.floor(number));
 };
 
+const countLikes = tweet => tweet.who_liked.length;
+
 // create and display tweets archived in db
 const createTweetElement = userTweet => {
   // 1. construct header
@@ -70,10 +71,11 @@ const createTweetElement = userTweet => {
   // time of your tweet creation
   const $timeSpan = $("<span>").text(`${humaniseTime(userTweet)} ago`);
   // create a like counter
-  let likeMessage = `${userTweet.like_counter} like`;
+  const likeCounts = countLikes(userTweet);
+  let likeMessage = `${likeCounts} like`;
   // don't show '0 like'
   // if there is more than 1 like, 'like' => 'likes'
-  if (userTweet.like_counter > 1) likeMessage += "s";
+  if (likeCounts > 1) likeMessage += "s";
 
   const $likeSpan = $("<span>")
     .addClass("like-counter")
