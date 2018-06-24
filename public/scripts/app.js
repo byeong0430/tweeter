@@ -2,27 +2,23 @@
 // there is no `this` in the document scope so `=>` is allowed
 $(() => {
   // destructure window.tweetFuncs
-  const { showTweets, processNewTweet } = window.tweetFuncs;
-
+  const { showTweets, submitTweet } = window.tweetFuncs;
+  const { setupVerificationForm, focusText, attachBtnEvent } = window.btnEvents;
   // use ajax to load all tweets in mongo db.
   showTweets();
 
-  // attach click event handler to nav button
-  attachBtnEvent();
+  // this function allows us to change the log in form into a sign up form or vice versa
+  // so that we don't have to make two almost exact same form copies
+  setupVerificationForm();
 
-  // event handler for on form submission
-  const $tweetForm = $('.new-tweet form');
-  $tweetForm.on('submit', event => {
-    // prevent the default behaviour of the form
-    event.preventDefault();
-    // serialise your form data
-    const $serialisedForm = $tweetForm.serialize();
-    // flash message
-    const $flashMessage = $('.new-tweet .flash-message');
+  // attach click event handler to nav LOGIN button
+  attachBtnEvent($('#login-signup-btn'), $('section.login-signup'));
 
-    // process the new tweet
-    processNewTweet($serialisedForm, $flashMessage);
-  });
+  // attach click event handler to nav COMPOSE button
+  attachBtnEvent($('#compose-btn'), $('section.new-tweet'), focusText);
+
+  // submit tweet
+  submitTweet();
 });
 
 

@@ -17,18 +17,28 @@
     font-size: 2em;
     margin-left: 10px;
   }
-  button {
+  .welcome-message {
+    @extend %nav-logo-group;
+    font-size: 1.2em;
+    margin-left: 20px;
+  }
+  .btn-group {
     float: right;
-    line-height: $nav-el-height - 30px;
-    margin-top: 13px;
-    background-color: #ebfffc;
-    border: none;
-    border-radius: 5px;
-    color: #00a087;
-    text-align: center;
-    &:hover {
-      background-color: white;
-      color: #82B541;
+    button {
+      line-height: $nav-el-height - 30px;
+      margin: 10px;
+      background-color: #ebfffc;
+      border: none;
+      border-radius: 5px;
+      color: #00a087;
+      text-align: center;
+      &:hover {
+        background-color: white;
+        color: #82B541;
+      }
+      i {
+        line-height: $nav-el-height - 30px;
+      }
     }
   }
 }

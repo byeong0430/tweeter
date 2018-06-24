@@ -1,0 +1,9 @@
+/* tweeter flash message for a warning or a success message */
+.flash-message {
+  @extend %main-section-style;
+  @extend %flashMessage-style;
+}
+
+section.login-signup .flash-message{
+  display:none;
+}

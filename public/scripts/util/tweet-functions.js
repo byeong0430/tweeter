@@ -1,7 +1,6 @@
 // sendAjaxReq() can post a new tweet AND update like-counter
 const sendAjaxReq = (reqData, okActionCb, noteDom) => {
   const { alertFunc } = reqData;
-
   $.ajax({
     url: reqData.url,
     method: reqData.method,
@@ -12,11 +11,10 @@ const sendAjaxReq = (reqData, okActionCb, noteDom) => {
     }
     // get the tweet db again
     okActionCb();
-  }).fail((xhr, err, errText) => {
+  }).fail(err => {
     // fail case 3: 400 ~ 500 errors?
-    const errMessage = `${err} ${xhr.status}: ${errText}`;
     if (alertFunc.enableWarningAlert === 'y') {
-      alertFunc.showFlashMessage(noteDom, 'flash-message warning', errMessage);
+      alertFunc.showFlashMessage(noteDom, 'flash-message warning', err.responseJSON.error);
     }
   });
 };
@@ -97,7 +95,7 @@ const addLikeCount = () => {
         showFlashMessage
       }
     };
-    sendAjaxReq(ajaxMeta, showTweets, $('.new-tweet .flash-message'));
+    sendAjaxReq(ajaxMeta, showTweets, $('.tweet-message-board .flash-message'));
   })
 };
 
@@ -122,10 +120,18 @@ const showTweets = () => {
   $.ajax({
     url: '/tweets',
     method: 'GET',
-    success: tweets => {
+    success: result => {
+      // check if user's still logged in. if so,
+      if (result.isLoggedIn) {
+        // configure buttons for logged-in case
+        btnWhileLoggedIn();
+      } else {
+        // configure buttons for logged-out case
+        btnAfterLoggedOut();
+      }
       // before loading tweets, empty out the tweet container
       $('#tweets-container').empty();
-      loadTweets(tweets);
+      loadTweets(result.tweets);
     }
   });
 };
@@ -162,9 +168,26 @@ const processNewTweet = (form, message) => {
   }
 };
 
+const submitTweet = () => {
+  // event handler for on form submission
+  const $tweetForm = $('.new-tweet form');
+  $tweetForm.on('submit', event => {
+    // prevent the default behaviour of the form
+    event.preventDefault();
+    // serialise your form data
+    const $serialisedForm = $tweetForm.serialize();
+    // flash message
+    const $flashMessage = $('.tweet-message-board .flash-message');
+
+    // process the new tweet
+    processNewTweet($serialisedForm, $flashMessage);
+  });
+};
+
 // you cannot use module.exports in client-side JS. 
 // Instead, you can add the loadTweets() method to window to make it available for other js files to import
 window.tweetFuncs = {
-  processNewTweet,
-  showTweets
+  showTweets,
+  submitTweet,
+  showFlashMessage
 };

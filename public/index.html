@@ -1,55 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
 
-  <head>
-    <!-- Meta Information -->
-    <title>Tweeter - Home Page</title>
+<head>
+  <!-- Meta Information -->
+  <title>Tweeter - Home Page</title>
 
-    <!-- External CSS -->
-    <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
-    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300i,400,700i" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- External CSS -->
+  <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300i,400,700i" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-    <!-- App CSS -->
-    <link rel="stylesheet" href="/styles/main.css" type="text/css" />
+  <!-- App CSS -->
+  <link rel="stylesheet" href="/styles/main.css" type="text/css" />
 
-    <!-- External JS -->
-    <script type="text/javascript" src="/vendor/jquery-2.2.3.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/humanize-duration/3.15.0/humanize-duration.js"></script>
+  <!-- External JS -->
+  <script type="text/javascript" src="/vendor/jquery-2.2.3.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/humanize-duration/3.15.0/humanize-duration.js"></script>
 
-    <!-- App JS -->
-    <script type='text/javascript' src='/scripts/util/tweet-functions.js'></script>
-    <script type='text/javascript' src='/scripts/util/btn-functions.js'></script>
-    <script type="text/javascript" src="/scripts/app.js"></script>
-    <script type="text/javascript" src="/scripts/composer-char-counter.js"></script>
-  </head>
+  <!-- App JS -->
+  <script type='text/javascript' src='/scripts/util/tweet-functions.js'></script>
+  <script type='text/javascript' src='/scripts/util/btn-functions.js'></script>
+  <script type="text/javascript" src="/scripts/app.js"></script>
+  <script type="text/javascript" src="/scripts/composer-char-counter.js"></script>
+</head>
 
-  <body>
-    <!-- Top nav bar (fixed) -->
-    <header>
-      <nav id="nav-bar">
-        <img class="logo" src="/images/bird.png">
-        <span class="header">Tweeter</span>
-        <button>
-          <i class='material-icons'>border_color</i> COMPOSE</button>
-      </nav>
-    </header>
+<body>
+  <!-- Top nav bar (fixed) -->
+  <header>
+    <nav id="nav-bar">
+      <img class="logo" src="/images/bird.png">
+      <span class="header">Tweeter</span>
+      <span class='welcome-message'></span>
+      <span class='btn-group'>
+        <button id='login-signup-btn'>
+          <i class='material-icons'>input</i> LOGIN
+        </button>
+        <button id="logout-btn">
+          <i class='material-icons'>remove_circle_outline</i> LOGOUT
+        </button>
+        <button id='compose-btn'>
+          <i class='material-icons'>border_color</i> COMPOSE
+        </button>
+      </span>
+    </nav>
+  </header>
 
-    <!-- Page-specific (main) content here -->
-    <main class="container">
-      <section class="new-tweet">
-        <article class='flash-message'></article>
-        <h2>Compose Tweet</h2>
-        <form>
-          <textarea name="text" placeholder="What are you humming about?"></textarea>
-          <input type="submit" value="Tweet">
-          <span class="counter">140</span>
-        </form>
-      </section>
-      <!-- db tweet section -->
-      <section id='tweets-container'>
-      </section>
-    </main>
-  </body>
+  <!-- Page-specific (main) content here -->
+  <main class="container">
+    <section class='login-signup' data-type='login'>
+      <article class='flash-message'></article>
+      <article>
+        <header>
+          <h2>Log in</h2>
+        </header>
+        <main>
+          <form action='/tweets/login' method='POST'>
+            <input type='text' id='email' name='email' placeholder='username'>
+            <input type='password' id='password' name='password' placeholder='password'>
+            <button type="submit">SUBMIT</button>
+          </form>
+        </main>
+        <footer>
+          <p>or
+            <a href='#'> sign up now</a>
+          </p>
+        </footer>
+      </article>
+    </section>
+    <section class='tweet-message-board'>
+      <article class='flash-message'></article>
+    </section>
+    <section class="new-tweet">
+      <h2>Compose Tweet</h2>
+      <form>
+        <textarea name="text" placeholder="What are you humming about?"></textarea>
+        <input type="submit" value="Tweet">
+        <span class="counter">140</span>
+      </form>
+    </section>
+    <!-- db tweet section -->
+    <section id='tweets-container'>
+    </section>
+  </main>
+</body>
 
 </html>

@@ -1,6 +1,6 @@
 // db tweets
 article.tweet {
-  margin: 2em 2em 0em;
+  margin: $mainpage-margin;
   border: 1px lightgrey solid;
   border-radius: 5px;
   &:hover {

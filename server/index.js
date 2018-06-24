@@ -5,13 +5,18 @@ const PORT = 8080;
 const path = require('path');
 const express = require("express");
 const bodyParser = require("body-parser");
+const cookieSession = require('cookie-session');
 const { MongoClient, ObjectId } = require('mongodb');
 const sassMiddleware = require('node-sass-middleware');
 
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
-
+app.use(cookieSession({
+  name: 'session',
+  keys: ['user_id'],
+  maxAge: 24 * 60 * 60 * 1000 //24 hours
+}))
 app.use(sassMiddleware({
   /* Options */
   src: path.join(__dirname, 'scss'),

@@ -1,27 +1,7 @@
 .new-tweet {
+  @extend %main-section-style;
   display: none;
-  margin: 0em 2em 0px 2em;
-  padding: 10px;
-  background: #ebebeb;
-  border: 1px lightgrey solid;
   border-radius: 5px;
-  /* tweeter flash message for a warning or a success message */
-  .flash-message {
-    /* set default display to none. when there is an error, this will change to display: block in app.js */
-    display: none;
-    text-align: center;
-    border-radius: 5px;
-    margin-bottom: 15px;
-    padding: 10px;
-    /* warning message */
-    &.warning {
-      @include color-flash-message(#721c24, #f8d7da, #f5c6cb);
-    }
-    /* success message */
-    &.ok {
-      @include color-flash-message(#004085, #cce5ff, #b8daff);
-    }
-  }
   h2 {
     margin: 0px 0px 20px 0px;
     border-bottom: 1px #3d3c3c solid;

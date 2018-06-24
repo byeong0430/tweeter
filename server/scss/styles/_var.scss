@@ -15,6 +15,16 @@ $nav-el-height: 80px;
 }
 
 // nav - end
+// main page
+$mainpage-margin: 2em 2em 0em;
+// main section style
+%main-section-style{
+  margin: $mainpage-margin;
+  padding: 10px;
+  background: #ebebeb;
+  border: 1px lightgrey solid;
+}
+
 // new-tweet
 @mixin color-flash-message($font-color, $bg-color, $border-color) {
   color: $font-color;
@@ -22,7 +32,26 @@ $nav-el-height: 80px;
   border: 1px $border-color solid
 }
 
+// flash message
+%flashMessage-style {
+  /* set default display to none. when there is an error, this will change to display: block in app.js */
+  display: none;
+  text-align: center;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  padding: 10px;
+  /* warning message */
+  &.warning {
+    @include color-flash-message(#721c24, #f8d7da, #f5c6cb);
+  }
+  /* success message */
+  &.ok {
+    @include color-flash-message(#004085, #cce5ff, #b8daff);
+  }
+}
+
 // new-tweet - end
 // db tweet
 $user-img-width: 50px;
 // db tweet
+// main page

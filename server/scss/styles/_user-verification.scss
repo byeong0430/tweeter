@@ -1,0 +1,45 @@
+section.login-signup {
+  @extend %main-section-style;
+  text-align: center;
+  position: relative;
+  display: none;
+  form {
+    * {
+      display: block;
+      margin: 0 auto;
+    }
+    input {
+      margin-bottom: 10px;
+      padding: 10px;
+      height: 35px;
+      border-radius: 4px;
+      border: 1px rgb(225, 225, 230) solid;
+    }
+    button {
+      width: 100px;
+      background-color: #419bfa;
+      color: white;
+      border-radius: 3px;
+      border-width: 0px;
+      padding: 12px 0px;
+    }
+  }
+  footer a {
+    text-decoration: none;
+    color: #244751;
+    &:visited {
+      color: #244751;
+    }
+    &:hover {
+      font-weight: 600;
+    }
+  } // shadow effect
+  // reference: https://css-tricks.com/almanac/properties/b/box-shadow/
+  -webkit-box-shadow: 1px 1px 21px -1px rgba(112, 111, 112, 0.7);
+  -moz-box-shadow: 1px 1px 21px -1px rgba(112, 111, 112, 0.7);
+  box-shadow: 1px 1px 21px -1px rgba(112, 111, 112, 0.7);
+}
+
+#logout-btn {
+  display: none;
+}
