@@ -20,8 +20,8 @@
   <!-- App JS -->
   <script type='text/javascript' src='/scripts/util/tweet-functions.js'></script>
   <script type='text/javascript' src='/scripts/util/btn-functions.js'></script>
-  <script type="text/javascript" src="/scripts/app.js"></script>
   <script type="text/javascript" src="/scripts/composer-char-counter.js"></script>
+  <script type="text/javascript" src="/scripts/app.js"></script>
 </head>
 
 <body>
@@ -47,6 +47,8 @@
 
   <!-- Page-specific (main) content here -->
   <main class="container">
+
+    <!-- login/signup form -->
     <section class='login-signup' data-type='login'>
       <article class='flash-message'></article>
       <article>
@@ -61,15 +63,21 @@
           </form>
         </main>
         <footer>
-          <p>or
+          <p>
+            or
             <a href='#'> sign up now</a>
           </p>
         </footer>
       </article>
     </section>
+    <!-- login/signup form - end -->
+
+    <!-- warning message related to tweets is displayed here -->
     <section class='tweet-message-board'>
       <article class='flash-message'></article>
     </section>
+
+    <!-- new tweet section -->
     <section class="new-tweet">
       <h2>Compose Tweet</h2>
       <form>
@@ -78,9 +86,9 @@
         <span class="counter">140</span>
       </form>
     </section>
+
     <!-- db tweet section -->
-    <section id='tweets-container'>
-    </section>
+    <section id='tweets-container'></section>
   </main>
 </body>
 

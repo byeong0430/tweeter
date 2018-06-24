@@ -1,9 +1,10 @@
-// $(document).ready can be shortened to $. 
+// $(document).ready can be shortened to $.
 // there is no `this` in the document scope so `=>` is allowed
 $(() => {
-  // destructure window.tweetFuncs
+  // destructure window.tweetFuncs & btnEvents
   const { showTweets, submitTweet } = window.tweetFuncs;
   const { setupVerificationForm, focusText, attachBtnEvent } = window.btnEvents;
+
   // use ajax to load all tweets in mongo db.
   showTweets();
 
@@ -12,13 +13,11 @@ $(() => {
   setupVerificationForm();
 
   // attach click event handler to nav LOGIN button
-  attachBtnEvent($('#login-signup-btn'), $('section.login-signup'));
+  attachBtnEvent($("#login-signup-btn"), $("section.login-signup"));
 
   // attach click event handler to nav COMPOSE button
-  attachBtnEvent($('#compose-btn'), $('section.new-tweet'), focusText);
+  attachBtnEvent($("#compose-btn"), $("section.new-tweet"), focusText);
 
   // submit tweet
   submitTweet();
 });
-
-
