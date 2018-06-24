@@ -163,20 +163,22 @@ const showFlashMessage = (DOM, newClass, message) => {
     .text(message);
 };
 
-const processNewTweet = (form, messageDOM) => {
-  const $tweetPhrase = form.replace("text=", "");
+const processNewTweet = ($form, $messageDOM) => {
+  // serialise your form data
+  const $serialisedForm = $form.serialize();
+  const $tweetPhrase = $serialisedForm.replace("text=", "");
   let warningMessage = "";
 
   switch (true) {
     case $tweetPhrase.length === 0:
       // fail case: empty content
       warningMessage = "Warning: Your tweet is empty!";
-      showFlashMessage(messageDOM, "flash-message warning", warningMessage);
+      showFlashMessage($messageDOM, "flash-message warning", warningMessage);
       break;
     case $tweetPhrase.length > 140:
       // fail case: content that's too long
       warningMessage = "Warning: Your tweet is empty!";
-      showFlashMessage(messageDOM, "flash-message warning", warningMessage);
+      showFlashMessage($messageDOM, "flash-message warning", warningMessage);
       break;
     default:
       // new tweet has no problem & is ready to be uploaded to db
@@ -184,14 +186,17 @@ const processNewTweet = (form, messageDOM) => {
       const ajaxMeta = {
         url: "/tweets",
         method: "POST",
-        data: form,
+        data: $serialisedForm,
         alertFunc: {
           enableOkAlert: "y",
           enableWarningAlert: "y",
           showFlashMessage
         }
       };
-      modifyTweets(ajaxMeta, showTweets, messageDOM);
+      modifyTweets(ajaxMeta, showTweets, $messageDOM);
+
+      // clear out the textarea
+      $form[0].reset();
   }
 };
 
@@ -201,12 +206,10 @@ const submitTweet = () => {
   $tweetForm.on("submit", event => {
     // prevent the default behaviour of the form
     event.preventDefault();
-    // serialise your form data
-    const $serialisedForm = $tweetForm.serialize();
     // flash message
     const $flashMessage = $(".tweet-message-board .flash-message");
     // process the new tweet
-    processNewTweet($serialisedForm, $flashMessage);
+    processNewTweet($tweetForm, $flashMessage);
   });
 };
 
