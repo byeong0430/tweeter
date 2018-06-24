@@ -21,6 +21,9 @@ const modifyTweets = (reqData, okActionCb, noteDom) => {
         const messageClass = "flash-message warning";
         const errorMessage = err.responseJSON.error;
         alertFunc.showFlashMessage(noteDom, messageClass, errorMessage);
+        // scroll all the way to window top for users who have scrolled down.
+        // because flash message is shown at the top of the window.
+        window.scrollTo(0, 0);
       }
     });
 };
