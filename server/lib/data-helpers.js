@@ -36,7 +36,7 @@ module.exports = function makeDataHelpers(db, ObjectId) {
           callback({message: 'You may not like your own tweet'});
         } else {
           // check if you have previously liked the tweet already
-          if (doc.who_liked.indexOf(idSet.userId)) {
+          if (doc.who_liked.indexOf(idSet.userId) === -1) {
             // current user have NOT liked the tweet. add the current user to who_liked
             tweetColl.update(objId, { $push: { who_liked: idSet.userId } });
           } else {
@@ -77,8 +77,9 @@ module.exports = function makeDataHelpers(db, ObjectId) {
     checkUser(email, callback) {
       // find the user record using the email
       userColl.find({ email: email }).toArray((collErr, coll) => {
+        const doc = coll[0];
         // check if document exists
-        if (coll[0]) {
+        if (doc) {
           callback(null, doc);
         } else {
           const err = { message: "email not found. please register!" };

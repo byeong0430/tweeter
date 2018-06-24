@@ -13,6 +13,8 @@ const btnAfterLoggedOut = () => {
   $("#logout-btn").hide();
   // then hide the login/signup section and button
   $("#login-signup-btn").show();
+  // render the form as a login form
+  showLoginForm($("section.login-signup"), $("section.login-signup a"));
 };
 
 // add event listener to the logout btn
@@ -63,25 +65,41 @@ const submitVerification = $submitForm => {
   });
 };
 
+// prepare login form
+const showSignUpForm = ($section, $a) => {
+  const $form = $section.find("form");
+  // convert the login form to signup form
+  $section.find("h2").text("Sign up");
+  $section.attr("data-type", "signup");
+  $form.attr("action", "/tweets/signup");
+  // anchor tag message. the form is no longer a login form!
+  $a.text("log in now");
+};
+
+// prepare signup form
+const showLoginForm = ($section, $a) => {
+  const $form = $section.find("form");
+  // convert the singup form to login form
+  $section.find("h2").text("Log in");
+  $section.attr("data-type", "login");
+  $form.attr("action", "/tweets/login");
+  $a.text("sign up now");
+};
+
 // this allows us to switch back and forth between login and signup forms
 // note: default is login form
-const switchVerifiForm = ($formSection, $form) => {
+const switchVerifiForm = $formSection => {
   // click event handler on anchor tag in the footer
-  $("section.login-signup a").on("click", function() {
+  const $form = $formSection.find("form");
+  const $anchor = $("section.login-signup a");
+  $anchor.on("click", function() {
     // if data-type is login (default setting), meaning the login form is displayed..
     if ($formSection.attr("data-type") === "login") {
-      // convert the login form to signup form
-      $formSection.find("h2").text("Sign up");
-      $formSection.attr("data-type", "signup");
-      $form.attr("action", "/tweets/signup");
-      // $(this) refers to anchor tag message. the form is no longer a login form!
-      $(this).text("log in now");
+      // change it to a signup form
+      showSignUpForm($formSection, $anchor);
     } else {
-      // convert the singup form to login form
-      $formSection.find("h2").text("Log in");
-      $formSection.attr("data-type", "login");
-      $form.attr("action", "/tweets/login");
-      $(this).text("sign up now");
+      // change it to a login form
+      showLoginForm($formSection, $anchor);
     }
     // hide any activated warning message because that applies to the previous form before switching
     $formSection.find(".flash-message").hide();
@@ -93,12 +111,11 @@ const switchVerifiForm = ($formSection, $form) => {
 // set up the login/signup form upon displaying the app
 const setupVerificationForm = () => {
   const $parentSection = $("section.login-signup");
-  const $form = $parentSection.find("form");
 
-  switchVerifiForm($parentSection, $form);
+  switchVerifiForm($parentSection);
 
   // add event on login & signup forms
-  submitVerification($form);
+  submitVerification($parentSection.find("form"));
 
   // in case user refreshes the webpage, add event handle to the logout button
   logout();
