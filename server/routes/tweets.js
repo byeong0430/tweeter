@@ -6,7 +6,7 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const tweetsRoutes = express.Router();
 
-module.exports = function(DataHelpers) {
+module.exports = function (DataHelpers) {
   // because the whole router is mounted to /tweets in index.js, '/' actually means '/tweets'
   tweetsRoutes.get("/", (req, res) => {
     // check if user is still logged in
@@ -22,6 +22,12 @@ module.exports = function(DataHelpers) {
 
   tweetsRoutes.get("/login", (req, res) => {
     res.redirect("/");
+  });
+
+  tweetsRoutes.get("/logout", (req, res) => {
+    // destroy cookie session
+    req.session = null;
+    res.redirect('/');
   });
 
   tweetsRoutes.post("/login", (req, res) => {
@@ -76,12 +82,6 @@ module.exports = function(DataHelpers) {
         res.status(200).json({ email: newRecord.ops[0].email });
       }
     });
-  });
-
-  tweetsRoutes.get("/logout", (req, res) => {
-    // destroy cookie session
-    req.session = null;
-    res.status(200).send();
   });
 
   tweetsRoutes.post("/likes", (req, res) => {
