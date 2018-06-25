@@ -33,7 +33,7 @@ app.use(express.static("public"));
 
 // connect to mongo db, tweeter
 const url = process.env.MONGODB_URI;
-console.log(url);
+
 MongoClient.connect(url, (dbErr, db) => {
   // throw err if there is a problem with db connection
   if (dbErr) throw dbErr;
