@@ -9,7 +9,7 @@ Users may
 - compose tweets (max. 140 characters) when logged in
 - like and un-like other users' tweets
 
-# Final Product
+## Final Product
 !['Screenshot of tweet compose box'](https://github.com/byeong0430/tweeter/blob/master/server/docs/tweet%20compose%20box.png)
 !['Screenshot of tweets'](https://github.com/byeong0430/tweeter/blob/master/server/docs/tweets.png)
 
