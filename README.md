@@ -15,3 +15,9 @@ This repository is the starter code for the project: Students will fork and clon
 
 - Express
 - Node 5.10.x or above
+- bcrypt
+- body-parser
+- chance
+- md5
+- mongodb
+- node-sass-middleware
