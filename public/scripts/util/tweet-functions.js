@@ -71,7 +71,10 @@ const createTweetElement = userTweet => {
   // time of your tweet creation
   const $timeSpan = $("<span>").text(`${humaniseTime(userTweet)} ago`);
   // create a like counter
-  const likeCounts = userTweet.who_liked.length;
+  console.log(userTweet.who_liked);
+  // const likeCounts = userTweet.who_liked.length;
+  const likeCounts = 0;
+
   let likeMessage = `${likeCounts} like`;
   // don't show '0 like'
   // if there is more than 1 like, 'like' => 'likes'
@@ -165,7 +168,7 @@ const processNewTweet = ($form, $messageDOM) => {
       break;
     case $tweetPhrase.length > 140:
       // fail case: content that's too long
-      warningMessage = "Warning: Your tweet is empty!";
+      warningMessage = "Warning: Your tweet is too long!";
       showFlashMessage($messageDOM, "flash-message warning", warningMessage);
       break;
     default:

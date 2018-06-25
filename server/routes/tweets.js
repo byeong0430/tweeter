@@ -127,10 +127,7 @@ module.exports = function(DataHelpers) {
       user: user,
       content: { text: req.body.text },
       created_at: Date.now(),
-      like_counter: {
-        user: user_id,
-        counts: 0
-      }
+      who_liked: []
     };
 
     DataHelpers.saveTweet(tweet, err => {

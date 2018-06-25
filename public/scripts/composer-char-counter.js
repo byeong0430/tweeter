@@ -7,7 +7,7 @@ $(() => {
   const charMaxLen = charCounter.innerHTML;
 
   // on keyup, subtract the # of chars from the total # allowed.
-  textArea.on("keyup", function() {
+  textArea.on("keyup", function () {
     // `this` refers to textArea.
     const numCharLeft = charMaxLen - $(this).val().length;
     // update the counter
@@ -15,6 +15,8 @@ $(() => {
     // if the number of characters exceeded, change the font color to red
     if (numCharLeft <= 0) {
       charCounter.style.color = "red";
+    } else {
+      charCounter.style.color = 'black';
     }
   });
 });
