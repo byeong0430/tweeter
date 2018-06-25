@@ -41,7 +41,7 @@ const verificationSuccess = ($form, success) => {
   // if login credentials were verified, add a welcome message on nav bar
   $("#nav-bar .welcome-message").text(`Welcome, ${success.email}!`);
   // hide any warning message that may have been displayed before logging in (e.g. clicking on 'like' btn before logging in)
-  $("section.tweet-message-board .flash-message").hide();
+  $(".flash-message").hide();
   // configure the navbar button for when user's logged in
   renderLoggedInPage();
 };
