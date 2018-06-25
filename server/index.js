@@ -8,6 +8,7 @@ const bodyParser = require("body-parser");
 const cookieSession = require('cookie-session');
 const { MongoClient, ObjectId } = require('mongodb');
 const sassMiddleware = require('node-sass-middleware');
+require('dotenv').config();
 
 const app = express();
 
@@ -31,7 +32,7 @@ app.use(sassMiddleware({
 app.use(express.static("public"));
 
 // connect to mongo db, tweeter
-const url = 'mongodb://localhost:27017/tweeter';
+const url = process.env.MONGODB_URI;
 
 MongoClient.connect(url, (dbErr, db) => {
   // throw err if there is a problem with db connection
