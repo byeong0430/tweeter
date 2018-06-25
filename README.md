@@ -2,6 +2,13 @@
 
 Tweeter is a simple, single-page Twitter clone.
 
+## Features
+
+Users may
+- create an account, log in and out
+- compose tweets (max. 140 characters) when logged in
+- like and un-like other users' tweets
+
 # Final Product
 !['Screenshot of tweet compose box'](https://github.com/byeong0430/tweeter/blob/master/server/docs/tweet%20compose%20box.png)
 !['Screenshot of tweets'](https://github.com/byeong0430/tweeter/blob/master/server/docs/tweets.png)
@@ -12,13 +19,6 @@ Tweeter is a simple, single-page Twitter clone.
 2. Install dependencies using the `npm install` command.
 3. Start the web server using the `npm run local` command. The app will be served at <http://localhost:8080/>.
 4. Go to <http://localhost:8080/> in your browser.
-
-## Features
-
-Users may
-- create an account, log in and out
-- compose tweets (max. 140 characters) when logged in
-- like and un-like other users' tweets
 
 ## Dependencies
 
