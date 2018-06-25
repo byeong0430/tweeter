@@ -29,4 +29,16 @@ Users may
 - chance
 - md5
 - mongodb
+- node-sass
 - node-sass-middleware
+
+## Known Issues
+### `bcrypt` on Vagrant
+You may receive an error message on Vagrant when installing dependencies using the `npm install` command.
+
+```shell
+npm ERR! enoent ENOENT: no such file or directory, open '<your cloned dir>/node_modules/bcrypt/node_modules/minipass/node_modules/yallist/package.json.3760322727'
+npm ERR! enoent This is related to npm not being able to find a file.
+```
+
+In this case, please install `bcrypt` in the cloned directory on your **local** computer then on **Vagrant**
