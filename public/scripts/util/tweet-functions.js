@@ -71,9 +71,7 @@ const createTweetElement = userTweet => {
   // time of your tweet creation
   const $timeSpan = $("<span>").text(`${humaniseTime(userTweet)} ago`);
   // create a like counter
-  console.log(userTweet.who_liked);
-  // const likeCounts = userTweet.who_liked.length;
-  const likeCounts = 0;
+  const likeCounts = userTweet.who_liked.length;
 
   let likeMessage = `${likeCounts} like`;
   // don't show '0 like'
