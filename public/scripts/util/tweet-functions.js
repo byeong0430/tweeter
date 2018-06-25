@@ -35,9 +35,8 @@ const makeIconGroup = (...iconNames) => {
   // loop through each google icon name to create DOM and append it to span.icon-group
   // also add data attribute called 'id' and give it each tweet object id
   iconNames[0].forEach(name => {
-    const $icon = $("<i>")
-      .addClass(`material-icons ${name}`)
-      .text(name);
+    const iconClass = `material-icons ${name}`;
+    const $icon = $("<i>").addClass(iconClass).text(name).css("cursor", "pointer");
     $iconGroupSpan.append($icon);
   });
   return $iconGroupSpan;
@@ -52,8 +51,6 @@ const humaniseTime = tweet => {
   // replace string float numbers with integers
   return stringTime.replace(/^[+-]?(\d*[.])?\d+/, number => Math.floor(number));
 };
-
-const countLikes = tweet => tweet.who_liked.length;
 
 // create and display tweets archived in db
 const createTweetElement = userTweet => {
@@ -74,42 +71,32 @@ const createTweetElement = userTweet => {
   // time of your tweet creation
   const $timeSpan = $("<span>").text(`${humaniseTime(userTweet)} ago`);
   // create a like counter
-  const likeCounts = countLikes(userTweet);
+  const likeCounts = userTweet.who_liked.length;
   let likeMessage = `${likeCounts} like`;
   // don't show '0 like'
   // if there is more than 1 like, 'like' => 'likes'
   if (likeCounts > 1) likeMessage += "s";
 
-  const $likeSpan = $("<span>")
-    .addClass("like-counter")
-    .text(likeMessage);
+  const $likeSpan = $("<span>").addClass("like-counter").text(likeMessage);
 
   // append timeSpan and likeSpan to a new span
-  const $footerMessage = $("<span>")
-    .append($timeSpan)
-    .append($likeSpan);
+  const $footerMessage = $("<span>").append($timeSpan).append($likeSpan);
 
   // append the two spans (icon-group and tweet time) to <footer>
-  const $footer = $("<footer>")
-    .append($footerMessage)
-    .append($iconGroupSpan);
+  const $footer = $("<footer>").append($footerMessage).append($iconGroupSpan);
   // 3. construct footer - end
 
   // return completed tweeter article
   const $tweetArticle = $("<article>").addClass("tweet");
-  return $tweetArticle
-    .append($header)
-    .append($main)
-    .append($footer);
+
+  return $tweetArticle.append($header).append($main).append($footer);
 };
 
 const addLikeCount = () => {
   // on click, fav btn should make a post request to /tweets/likes to update the like-counter
-  $("#tweets-container i.favorite").on("click", function() {
+  $("#tweets-container i.favorite").on("click", function () {
     // data-id attribute is in its parent DOM
-    const $tweetId = $(this)
-      .parent()
-      .data("id");
+    const $tweetId = $(this).parent().data("id");
     // send an ajax post request to /tweets/likes/. only enable warning alert
     const likeCounterMeta = {
       url: "/tweets/likes",
@@ -162,11 +149,7 @@ const showTweets = () => {
 
 // show flash messages
 // jQuery DOM refers to the element you add the message to
-const showFlashMessage = (DOM, newClass, message) => {
-  DOM.attr("class", newClass)
-    .show()
-    .text(message);
-};
+const showFlashMessage = (DOM, newClass, message) => DOM.attr("class", newClass).show().text(message);
 
 const processNewTweet = ($form, $messageDOM) => {
   // serialise your form data

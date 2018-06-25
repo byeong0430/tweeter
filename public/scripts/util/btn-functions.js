@@ -115,12 +115,9 @@ const switchVerifiForm = $formSection => {
 // set up the login/signup form upon displaying the app
 const setupVerificationForm = () => {
   const $parentSection = $("section.login-signup");
-
   switchVerifiForm($parentSection);
-
   // add event on login & signup forms
   submitVerification($parentSection.find("form"));
-
   // in case user refreshes the webpage, add event handle to the logout button
   logout();
 };
